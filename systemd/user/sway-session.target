@@ -1,0 +1,8 @@
+[Unit]
+Description=Sway Session
+OnFailure=sway-session-shutdown.target
+OnFailureJobMode=replace-irreversibly
+Requires=graphical-session-pre.target sway.service
+After=graphical-session-pre.target sway.service
+BindsTo=graphical-session.target sway.service
+Before=graphical-session.target

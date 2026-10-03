@@ -1,0 +1,16 @@
+[Unit]
+Description=sway - SirCmpwn's Wayland compositor
+Documentation=man:sway(1)
+PartOf=graphical-session.target
+After=graphical-session-pre.target
+Before=graphical-session.target sway-session.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+ExecStart=/usr/bin/sway --unsupported-gpu
+ExecReload=/usr/bin/swaymsg reload
+ExecStopPost=-/usr/bin/systemctl --user unset-environment WAYLAND_DISPLAY SWAYSOCK DISPLAY XCURSOR_THEME XCURSOR_SIZE
+Restart=no
+Slice=session.slice
+OOMScoreAdjust=-1000
