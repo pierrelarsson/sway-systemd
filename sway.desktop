@@ -1,0 +1,6 @@
+[Desktop Entry]                                                                                           
+Name=Sway
+Comment=sway - SirCmpwn's Wayland compositor
+Exec=sway-session start
+Type=Application
+DesktopNames=sway;wlroots

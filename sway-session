@@ -1,0 +1,50 @@
+#!/bin/bash
+
+export XDG_CURRENT_DESKTOP=sway
+export XDG_SESSION_DESKTOP=sway
+export XDG_SESSION_TYPE=${XDG_SESSION_TYPE:-wayland}
+export DESKTOP_SESSION=${DESKTOP_SESSION:-sway}
+
+stop() {
+    systemctl --user --job-mode=replace-irreversibly start \
+        sway-session-shutdown.target
+    systemctl --user unset-environment \
+        XDG_CURRENT_DESKTOP \
+        XDG_SESSION_DESKTOP \
+        XDG_SESSION_TYPE \
+        DESKTOP_SESSION
+}
+
+start() {
+    systemctl --user --quiet is-active sway-session.target && exit 1
+    trap stop EXIT
+    systemctl --user reset-failed
+    systemctl --user import-environment \
+        XDG_CURRENT_DESKTOP \
+        XDG_SESSION_DESKTOP \
+        XDG_SESSION_TYPE \
+        DESKTOP_SESSION
+    systemctl --user --wait start \
+        sway-session.target
+}
+
+status() {
+    systemctl --user is-active \
+        sway-session.target
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo "Usage: $0 <start|stop|status>" >&2
+        exit 1
+        ;;
+esac
