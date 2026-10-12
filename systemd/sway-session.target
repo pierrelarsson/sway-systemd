@@ -2,7 +2,9 @@
 Description=Sway Session
 OnFailure=sway-session-shutdown.target
 OnFailureJobMode=replace-irreversibly
-Requires=graphical-session-pre.target sway.service
-After=graphical-session-pre.target sway.service
-BindsTo=graphical-session.target sway.service
+Requires=graphical-session-pre.target
+BindsTo=graphical-session.target
+After=graphical-session-pre.target
 Before=graphical-session.target
+BindsTo=sway.service
+After=sway.service
